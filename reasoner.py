@@ -10,7 +10,7 @@ def reason(problem: str, max_iterations: int = 10) -> str:
             break
         bot.call("continue")
     
-    return bot.decode()
+    return bot.decode(problem)
 
 
 if __name__ == "__main__":

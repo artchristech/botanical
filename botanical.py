@@ -30,8 +30,16 @@ class Botanical:
     def is_complete(self) -> bool:
         return "◾" in self.symbols
     
-    def decode(self) -> str:
-        decode_prompt = f"Translate this symbolic program to English:\n\n{self.symbols}"
+    def _legend(self) -> str:
+        return "\n".join(line for line in self.system.splitlines() if " = " in line)
+
+    def decode(self, problem: str) -> str:
+        decode_prompt = (
+            f"Problem:\n{problem}\n\n"
+            f"Symbol legend:\n{self._legend()}\n\n"
+            f"Symbolic program:\n{self.symbols}\n"
+            "Translate this symbolic program into a plain-English answer to the problem."
+        )
         response = self.client.messages.create(
             model=self.model,
             max_tokens=1024,
